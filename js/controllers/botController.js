@@ -1,11 +1,4 @@
-export const createBot = (name, description, actions, profilePicture, apiEndpoint, secondaryApiEndpoint = null) => ({
-    name,
-    description,
-    actions,
-    profilePicture,
-    apiEndpoint,
-    secondaryApiEndpoint
-});
+import { displayMessage, saveMessage } from './messageController.js';
 
 export const respondToMessage = (bot, message) => {
     if (message === 'au rapport') {
@@ -24,6 +17,9 @@ const performAction = (bot, action) => {
     if (bot.name === 'Rigolo' && action === 'info') {
         apiEndpoint = bot.secondaryApiEndpoint;
     }
+    if (bot.name === 'Rigolo' && action === 'chuck') {
+        apiEndpoint = bot.thirdApiEndpoint;
+    }
 
     fetch(apiEndpoint)
         .then(response => response.json())
@@ -39,7 +35,8 @@ const performAction = (bot, action) => {
                 'amazon': data.AMZN?.price ? `${data.AMZN.price} USD` : undefined,
                 'microsoft': data.MSFT?.price ? `${data.MSFT.price} USD` : undefined,
                 'tech': data.message,
-                'info': data.text
+                'info': data.text,
+                'chuck': data.value
             };
 
             const message = actionMap[action] !== undefined ? `${actionMap[action]}` : 'Action inconnue.';
@@ -57,20 +54,18 @@ const commonResponse = (bot) => {
     saveMessage(bot.name, message, 'bot', bot.profilePicture, timestamp);
 };
 
-const displayMessage = (sender, message, type, profilePicture = '', timestamp) => {
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('message', type);
-    if (type === 'bot') {
-        messageElement.innerHTML = `<div><img src="${profilePicture}" alt="${sender}" class="bot-image"> <span>${sender}: ${message}</span></div><div class="timestamp">${timestamp}</div>`;
-    } else {
-        messageElement.innerHTML = `<div><span>${sender}: ${message}</span></div><div class="timestamp">${timestamp}</div>`;
-    }
-    document.getElementById('messages').appendChild(messageElement);
-    document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
-};
-
-const saveMessage = (sender, message, type, profilePicture, timestamp) => {
-    const messages = JSON.parse(localStorage.getItem('messages')) || [];
-    messages.push({ sender, message, type, profilePicture, timestamp });
-    localStorage.setItem('messages', JSON.stringify(messages));
+export const displayBotList = (bots) => {
+    const botList = document.getElementById('bot-list');
+    bots.forEach(bot => {
+        const botItem = document.createElement('li');
+        botItem.innerHTML = `<img src="${bot.profilePicture}" alt="${bot.name}" class="bot-image"> ${bot.name}`;
+        botItem.addEventListener('click', () => {
+            const timestamp = new Date().toLocaleTimeString();
+            const commandList = bot.actions.join(', ');
+            const description = `${bot.description} Commandes: ${commandList}.`;
+            displayMessage(bot.name, description, 'bot', bot.profilePicture, timestamp);
+            saveMessage(bot.name, description, 'bot', bot.profilePicture, timestamp);
+        });
+        botList.appendChild(botItem);
+    });
 };
