@@ -17,6 +17,12 @@ Interaction avec les bots : Tapez votre message dans le champ de saisie et cliqu
 Liste des bots : Cliquez sur un bot dans la barre latérale pour voir ses commandes disponibles.
 Gestion des messages : Cliquez sur "Supprimer les messages" pour effacer l'historique des messages.
 
+Une commande secrète "au rapport" permet de vérifier si tous les bots sont à nos ordres
+
+Si jamais vous effectuez trop rapidement des commandes crypto ou bourse, il se peut que les bots vous renvoient une erreur.
+Patientez quelques minutes et effectuer à nouveau vos actions.
+(Ces bots communiquent avec des apis gratuites et limitent les appels par minute)
+
 ## Structure du Projet
 Le projet est structuré selon les normes MVC pour une meilleure organisation et maintenabilité du code.
 
