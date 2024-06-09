@@ -7,17 +7,22 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Conteneur principal de l'application -->
     <div id="app">
+        <!-- Barre latérale pour la liste des bots -->
         <div id="sidebar">
             <h2>Bots Disponibles</h2>
             <ul id="bot-list"></ul>
         </div>
+        <!-- Fenêtre de chat -->
         <div id="chat-window">
+            <!-- Zone d'affichage des messages -->
             <div id="messages"></div>
+            <!-- Zone des différents boutons -->
             <div id="input-section">
-                <input type="text" id="message-input" placeholder="Tapez votre message...">
-                <button id="send-button">Envoyer</button>
-                <button id="clear-button">Supprimer les messages</button>
+                <input type="text" id="message-input" placeholder="Tapez votre message..."> <!-- Champ de saisie des messages -->
+                <button id="send-button">Envoyer</button> <!-- Bouton d'envoi -->
+                <button id="clear-button">Supprimer les messages</button> <!-- Bouton de suppression -->
             </div>
         </div>
     </div>

@@ -1,29 +1,32 @@
 import { displayMessage, saveMessage } from './messageController.js';
 
+// Répondre à un message en fonction de l'action
 export const respondToMessage = (bot, message) => {
     if (message === 'au rapport') {
-        commonResponse(bot);
+        commonResponse(bot); // Réponse commune pour "au rapport"
     } else {
         bot.actions.forEach(action => {
             if (message.includes(action)) {
-                performAction(bot, action);
+                performAction(bot, action); // Exécuter l'action correspondante
             }
         });
     }
 };
 
+// Requête à l'API en fonction du bot et de l'action 
 const performAction = (bot, action) => {
     let apiEndpoint = bot.apiEndpoint;
     if (bot.name === 'Rigolo' && action === 'info') {
-        apiEndpoint = bot.secondaryApiEndpoint;
+        apiEndpoint = bot.secondaryApiEndpoint; // Utiliser l'API secondaire pour "info"
     }
     if (bot.name === 'Rigolo' && action === 'chuck') {
-        apiEndpoint = bot.thirdApiEndpoint;
+        apiEndpoint = bot.thirdApiEndpoint; // Utiliser l'API tertiaire pour "chuck"
     }
 
     fetch(apiEndpoint)
         .then(response => response.json())
         .then(data => {
+            // Mapper les actions aux réponses de l'API
             const actionMap = {
                 'btc': data.bitcoin?.usd ? `${data.bitcoin.usd} USD` : undefined,
                 'eth': data.ethereum?.usd ? `${data.ethereum.usd} USD` : undefined,
@@ -39,14 +42,16 @@ const performAction = (bot, action) => {
                 'chuck': data.value
             };
 
+            // Afficher et sauvegarder le message de la réponse
             const message = actionMap[action] !== undefined ? `${actionMap[action]}` : 'Action inconnue.';
             const timestamp = new Date().toLocaleTimeString();
             displayMessage(bot.name, message, 'bot', bot.profilePicture, timestamp);
             saveMessage(bot.name, message, 'bot', bot.profilePicture, timestamp);
         })
-        .catch(error => console.error('Erreur:', error));
+        .catch(error => console.error('Erreur:', error)); // Gérer les erreurs de requête
 };
 
+// Réponse commune à une action
 const commonResponse = (bot) => {
     const message = 'Oui chef !';
     const timestamp = new Date().toLocaleTimeString();
@@ -54,6 +59,7 @@ const commonResponse = (bot) => {
     saveMessage(bot.name, message, 'bot', bot.profilePicture, timestamp);
 };
 
+// Afficher la liste des bots
 export const displayBotList = (bots) => {
     const botList = document.getElementById('bot-list');
     bots.forEach(bot => {
