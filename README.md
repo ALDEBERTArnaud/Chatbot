@@ -21,7 +21,7 @@ Cliquez sur "Supprimer les messages" pour effacer l'historique des messages.
 ### Une commande secrète "au rapport" permet de vérifier si tous les bots sont à nos ordres
 
 Si jamais vous effectuez trop rapidement des commandes crypto ou bourse, il se peut que les bots vous renvoient une erreur.
-Patientez quelques minutes et effectuer à nouveau vos actions.
+Patientez quelques minutes et effectuez à nouveau vos actions.
 #### (Ces bots communiquent avec des apis gratuites et limitent les appels par minute)
 
 ## Structure du Projet
